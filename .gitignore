@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+/vendor
+/dist
+/build
+
+# logs and temporary files
+*.log
+*.tmp
+
+# environment variables and sensitive data
+.env
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
