@@ -1,5 +1,5 @@
 import { createUser, findByEmail } from "../db/queries";
-import { Request , Response } from "express";
+import { Request, Response } from "express";
 import { comparePassword, hashPassword } from "../utils/hash";
 import { generateToken } from "../utils/jwt";
 
@@ -15,16 +15,18 @@ export const register = async (req: Request, res: Response) => {
 
     const hashedPassword = await hashPassword(password);
 
-    const user = await createUser({name , email , hashedPassword , role});
-    const token = generateToken({id: user.id , role : user.role});
-     res.status(201).json({
-      message: "registeration completed",
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      created_at : user.created_at,
+    const user = await createUser({ name, email, hashedPassword, role });
+    const token = generateToken({ id: user.id, role: user.role });
+    res.status(201).json({
       token,
+      message: "registeration completed",
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        created_at: user.created_at,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -34,8 +36,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-
-export const login = async (req : Request, res : Response) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -58,16 +59,18 @@ export const login = async (req : Request, res : Response) => {
       });
     }
 
-    const token = generateToken({ id: user.id  , role : user.role});
+    const token = generateToken({ id: user.id, role: user.role });
 
     res.status(200).json({
-      message: "Login complete",
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role:user.role,
-      created_at : user.created_at,
       token,
+      message: "Login complete",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        created_at: user.created_at,
+      },
     });
   } catch (err) {
     console.log(err);
