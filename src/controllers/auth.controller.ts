@@ -1,4 +1,4 @@
-import { createUser, findByEmail } from "../db/queries";
+import { createUser, findByEmail } from "../db/auth.queries";
 import { Request, Response } from "express";
 import { comparePassword, hashPassword } from "../utils/hash";
 import { generateToken } from "../utils/jwt";
