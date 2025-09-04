@@ -42,3 +42,11 @@ export const deleteJob = async (id:number , employer_id:number) => {
       [id, employer_id]
     );
 }
+
+
+export const getOnlyMyJobs = async (id:number) => {
+  return await pool.query(
+      'SELECT * FROM jobs WHERE employer_id = $1 ORDER BY created_at DESC',
+      [id]
+    );
+}

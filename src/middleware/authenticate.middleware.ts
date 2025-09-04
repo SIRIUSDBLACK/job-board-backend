@@ -4,7 +4,7 @@ import { TokenPayload } from "../model/tokenpayload";
 
 dotenv.config();
 
-export const authMiddleware = (
+export const authenticationMiddleware = (
   req: any,
   res: any,
   next: any

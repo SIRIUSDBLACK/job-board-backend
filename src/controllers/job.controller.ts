@@ -3,6 +3,7 @@ import {
   createNewJob,
   deleteJob,
   getAllJobs,
+  getOnlyMyJobs,
   updateJob,
 } from "../db/job.queries";
 // You can create a custom Request type to ensure type safety
@@ -50,7 +51,9 @@ export const getJobs = async (_req: Request, res: Response) => {
     const result = await getAllJobs();
     if (result.rowCount === 0) {
       // If no rows were updated, the job was not found or didn't belong to the user
-      return res.status(200).json({ message: "there is no jobs yet" , jobs: result.rows });
+      return res
+        .status(200)
+        .json({ message: "there is no jobs yet", jobs: result.rows });
     } else {
       res.json({ message: "Successfully fetched all jobs", jobs: result.rows });
     }
@@ -112,6 +115,26 @@ export const deleteExistingJob = async (
     res.json({ message: "Job deleted successfully" });
   } catch (err) {
     console.error("Error deleting job:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getMyJobs = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const employer_id = req.user.id; // coming from JWT payload
+
+    const result = await getOnlyMyJobs(employer_id);
+
+    if (result.rowCount === 0) {
+      // If no rows were updated, the job was not found or didn't belong to the user
+      return res
+        .status(200)
+        .json({ message: "there is no jobs yet", jobs: result.rows });
+    } else {
+      res.json({ message: "Successfully fetched all my jobs", jobs: result.rows });
+    }
+  } catch (err) {
+    console.error("Error fetching my jobs:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
