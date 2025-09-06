@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/create",authenticationMiddleware,authorizationMiddleware(['employer']),createJob as any);
 router.get("/",authenticationMiddleware,getJobs);
-router.get("/job-detail",authenticationMiddleware,GetAJob as any);
+router.get("/job-detail/:id",authenticationMiddleware,GetAJob as any);
 router.get("/myjobs",authenticationMiddleware,authorizationMiddleware(['employer']),getMyJobs as any);
 router.put("/update/:id",authenticationMiddleware,authorizationMiddleware(['employer']),updateExistingJob as any);
 router.delete("/delete/:id",authenticationMiddleware,authorizationMiddleware(['employer']),deleteExistingJob as any);
