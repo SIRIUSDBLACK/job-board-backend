@@ -50,3 +50,13 @@ export const getOnlyMyJobs = async (id:number) => {
       [id]
     );
 }
+
+export const GetJobDetail = async (id:number , employer_id : number) => {
+  return await pool.query(
+      'SELECT * FROM jobs WHERE id=$1 AND employer_id = $2',
+      [id , employer_id]
+    );
+}
+
+
+

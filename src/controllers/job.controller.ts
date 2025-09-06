@@ -3,6 +3,7 @@ import {
   createNewJob,
   deleteJob,
   getAllJobs,
+  GetJobDetail,
   getOnlyMyJobs,
   updateJob,
 } from "../db/job.queries";
@@ -119,6 +120,7 @@ export const deleteExistingJob = async (
   }
 };
 
+//get the jobs releated to the employer himself
 export const getMyJobs = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const employer_id = req.user.id; // coming from JWT payload
@@ -131,10 +133,40 @@ export const getMyJobs = async (req: AuthenticatedRequest, res: Response) => {
         .status(200)
         .json({ message: "there is no jobs yet", jobs: result.rows });
     } else {
-      res.json({ message: "Successfully fetched all my jobs", jobs: result.rows });
+      res.json({
+        message: "Successfully fetched all my jobs",
+        jobs: result.rows,
+      });
     }
   } catch (err) {
     console.error("Error fetching my jobs:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//get a job by id
+
+export const GetAJob = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const jobId = Number(id);
+    const employer_id = req.user!.id;
+
+    const result = await GetJobDetail(jobId, employer_id);
+
+    if (result.rowCount === 0) {
+      // If no rows were updated, the job was not found or didn't belong to the user
+      return res
+        .status(404)
+        .json({ message: "Job not found or not authorized" });
+    } else {
+      res.json({
+        message: "Successfully fetched job detail",
+        jobs: result.rows[0],
+      });
+    }
+  } catch (err) {
+    console.error("Error fetching job detail:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
