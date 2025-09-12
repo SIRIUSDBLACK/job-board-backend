@@ -15,7 +15,7 @@ export const createUser = async ({
 };
 
 export const findByEmail = async (email:string) => {
-    const user = await db.query("SELECT id , name , email , password , role , created_at FROM users WHERE email = $1" , [email])
+    const user = await db.query("SELECT id , name , email , password , role , created_at , is_banned FROM users WHERE email = $1" , [email])
     return user.rows[0];
 }
 

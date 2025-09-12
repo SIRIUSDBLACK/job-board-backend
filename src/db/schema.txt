@@ -4,7 +4,8 @@
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL CHECK (role IN ('admin','employer','seeker')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_banned BOOLEAN DEFAULT FALSE
 );
 
  jobs (
@@ -15,4 +16,65 @@
     location VARCHAR(150),
     employer_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ applications (
+    application_id SERIAL PRIMARY KEY,
+
+    job_id INTEGER NOT NULL,
+
+    seeker_id INTEGER NOT NULL,
+
+    cv_url VARCHAR(255) NOT NULL,
+
+    applied_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_job
+        FOREIGN KEY (job_id)
+        REFERENCES jobs (job_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_seeker
+        FOREIGN KEY (seeker_id)
+        REFERENCES seekers (seeker_id)
+        ON DELETE CASCADE
+);
+
+
+
+
+
+CREATE TABLE applications (
+    -- A unique identifier for each application. SERIAL automatically
+    -- generates a unique, sequential integer value for each new record.
+    application_id SERIAL PRIMARY KEY,
+
+    -- The ID of the job the user applied for. This is a foreign key
+    -- that references the 'jobs' table, ensuring the job exists.
+    job_id INTEGER NOT NULL,
+
+    -- The ID of the job seeker who submitted the application. This is a
+    -- foreign key that references your 'seekers' or 'users' table.
+    seeker_id INTEGER NOT NULL,
+
+    -- The URL of the uploaded CV/resume. This URL will be provided by
+    -- a media management service like Cloudinary.
+    cv_url VARCHAR(255) NOT NULL,
+
+    -- A timestamp that automatically records when the application was submitted.
+    -- 'WITH TIME ZONE' is best practice to handle different timezones.
+    applied_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    -- Foreign key constraints to link this table to the 'jobs' and 'seekers' tables.
+    -- These constraints enforce that an application must be linked to a valid job and seeker.
+    CONSTRAINT fk_job
+        FOREIGN KEY (job_id)
+        REFERENCES jobs (job_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_seeker
+        FOREIGN KEY (seeker_id)
+        REFERENCES seekers (seeker_id)
+        ON DELETE CASCADE
 );

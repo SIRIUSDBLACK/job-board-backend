@@ -3,14 +3,19 @@ export interface User {
   name: string;
   email: string;
   password: string;
-  role: "admin" | "employer" | "seeker";
+  role: UserRole;
+  is_banned : boolean;
+}
+
+export interface UserRole {
+    role: "admin" | "employer" | "seeker";
 }
 
 export interface RegisterPayload {
   name: string;
   email: string;
   hashedPassword: string;
-  role: "admin" | "employer" | "seeker";
+  role: UserRole;
 }
 
 export interface LoginPayload {

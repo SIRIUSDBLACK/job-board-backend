@@ -52,6 +52,12 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
+    if(user.is_banned){
+      return res.status(403).json({
+        message : "User is banned"
+      });
+    }
+
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
