@@ -26,6 +26,8 @@
 
     seeker_id INTEGER NOT NULL,
 
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'shortlisted', 'rejected'));
+
     cv_url VARCHAR(255) NOT NULL,
 
     applied_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -40,9 +42,6 @@
         REFERENCES seekers (seeker_id)
         ON DELETE CASCADE
 );
-
-
-
 
 
 CREATE TABLE applications (

@@ -3,3 +3,5 @@ export interface uploadApplication {
     seeker_id : string,
     cv_url : string
 }
+
+export type JobStatus = 'pending' | 'shortlisted' | 'rejected' ;
