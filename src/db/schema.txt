@@ -26,7 +26,7 @@
 
     seeker_id INTEGER NOT NULL,
 
-    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'shortlisted', 'rejected'));
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'shortlisted', ' '));
 
     cv_url VARCHAR(255) NOT NULL,
 

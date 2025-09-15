@@ -22,10 +22,12 @@ export const getApplicationsBySeekerId = async (seekerId : number) => {
 
 export const getApplicationsByJobId = async (jobId : number) => {
     return await pool.query(`
-        SELECT a.application_id, a.seeker_id ,  u.name AS seeker_name, a.cv_url, a.status, a.applied_date
+        SELECT a.application_id, a.seeker_id ,  u.name AS seeker_name, a.status, a.applied_date, a.cv_url , j.employer_id
         FROM applications a
         JOIN users u ON a.seeker_id = u.id
-        WHERE a.job_id = $1;
+        JOIN jobs j ON a.job_id = j.id
+        WHERE a.job_id = $1
+        ORDER BY a.applied_date DESC;
         ` 
         , [jobId] );
 }

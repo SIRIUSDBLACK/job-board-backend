@@ -85,11 +85,17 @@ export const getSeekerApplications = async (
   }
 };
 
-export const getJobApplications = async (req: Request, res: Response) => {
+export const getJobApplications = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
+    const userId = req.user.id
     const result = await getApplicationsByJobId(id);
-
+    if(result.rows.length > 0){
+      const employerId = result.rows[0].employer_id
+      if(userId !== employerId){
+        return res.status(403).json({message : "Forbidden ;  Thats not your job applications bozo "})
+      }
+    }
     if (result.rowCount === 0) {
       console.log("returned the empty array due to no applications yet");
       return res

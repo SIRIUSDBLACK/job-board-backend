@@ -22,28 +22,15 @@ export const uploadToCloudinary = async (
   });
 
   console.log(result);
-  const url = cloudinary.url(result.public_id, {
-    transformation: [
-      {
-        quality: "auto",
-        fetch_format: "auto",
-      },
+  const downloadUrl = result.secure_url.replace("/upload/", "/upload/fl_attachment/");
 
-      {
-        width: 1200,
-        height: 1200,
-        crop: "fill",
-        gravity: "auto",
-      },
-    ],
-  });
   try {
     fs.unlinkSync(file.path);
   } catch (err) {
     console.error("Failed to delete temp file:", err);
   }
-  console.log(url);
-  return url;
+  console.log(downloadUrl);
+  return downloadUrl;
 };
 
 export default cloudinary;

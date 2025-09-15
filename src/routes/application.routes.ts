@@ -10,7 +10,7 @@ const router =express.Router()
 router.post("/apply", authenticationMiddleware, authorizationMiddleware(["seeker"]), upload.single("cv_file"), applyCV);
 
 router.get("/get-seeker-applications",authenticationMiddleware,authorizationMiddleware(['seeker']),getSeekerApplications as any)
-router.get("/get-job-applications/:id",authenticationMiddleware,authorizationMiddleware(['employer']),getJobApplications)
+router.get("/get-job-applications/:id",authenticationMiddleware,authorizationMiddleware(['employer']),getJobApplications as any)
 router.patch("/change-status/:id",authenticationMiddleware,authorizationMiddleware(['employer']),updateApplicationStatus)
 
 export default router ;
