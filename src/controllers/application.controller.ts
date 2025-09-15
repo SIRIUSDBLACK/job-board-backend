@@ -123,11 +123,10 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
   
       const id = Number(req.params.id);
       const {status} = req.body;
-  
-      const result = await updateApplicationStatusQ(id,status);
+      
+     await updateApplicationStatusQ(id,status);
       res.status(200).json({
           message : " application status is changed successfully",
-          application : result.rows[0]  
       })
     } catch (err) {
       console.log("error in changing application status role", err);

@@ -37,7 +37,6 @@ export const updateApplicationStatusQ = async (applicationId : number , status :
         UPDATE applications
         SET status = $1
         WHERE application_id = $2
-        RETURNING *;
         `
     , [status , applicationId])
 }
