@@ -29,7 +29,6 @@ export const register = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
-    console.log(err);
     res.status(404).json({
       message: "server error",
     });
@@ -79,7 +78,6 @@ export const login = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: "Login failed",
     });

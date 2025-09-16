@@ -12,12 +12,9 @@ export const applyCV = async (req: Request, res: Response) => {
   try {
     // Extract data from the request body
 
-    console.log(req.body);
-    console.log(req.file);
     const { job_id, seeker_id } = req.body;
     const cv_file = req.file;
 
-    console.log(job_id, seeker_id, cv_file);
 
     // Basic validation
     if (!job_id || !seeker_id || !cv_file) {
@@ -36,7 +33,6 @@ export const applyCV = async (req: Request, res: Response) => {
     const newApplication = await uploadCV({ job_id, seeker_id, cv_url });
 
     // Send a successful response with the new application data
-    console.log(newApplication);
     res.status(201).json({
       message: "Application submitted successfully!",
       application: {
@@ -60,7 +56,6 @@ export const getSeekerApplications = async (
 ) => {
   try {
     const seeker_id = req.user.id; // coming from JWT payload
-    console.log(seeker_id);
 
     const result = await getApplicationsBySeekerId(seeker_id);
 

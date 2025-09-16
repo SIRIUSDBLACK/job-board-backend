@@ -21,7 +21,6 @@ export const uploadToCloudinary = async (
     public_id: `${userId}_${Date.now()}`, // unique name
   });
 
-  console.log(result);
   const downloadUrl = result.secure_url.replace("/upload/", "/upload/fl_attachment/");
 
   try {
@@ -29,7 +28,6 @@ export const uploadToCloudinary = async (
   } catch (err) {
     console.error("Failed to delete temp file:", err);
   }
-  console.log(downloadUrl);
   return downloadUrl;
 };
 

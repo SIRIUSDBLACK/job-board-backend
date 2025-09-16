@@ -77,7 +77,6 @@ export const getJobs = async (req: Request, res: Response) => {
       LIMIT $${values.length + 1} OFFSET $${values.length + 2}
     `;
     const jobResult = await pool.query(jobQuery, [...values, limit, offset]);
-    console.log("we gott all jobs ");
     res.json({
       total,
       page: Number(page),
