@@ -6,9 +6,9 @@ import { generateToken } from "../utils/jwt";
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role } = req.body;
-
+    console.log(req.body);
     const isUserExist = await findByEmail(email);
-
+    console.log(isUserExist);
     if (isUserExist) {
       return res.status(400).json({ message: "Email already exists" });
     }
@@ -16,7 +16,9 @@ export const register = async (req: Request, res: Response) => {
     const hashedPassword = await hashPassword(password);
 
     const user = await createUser({ name, email, hashedPassword, role });
+    console.log(user);
     const token = generateToken({ id: user.id, role: user.role });
+    console.log(token);
     res.status(201).json({
       token,
       message: "registeration completed",
@@ -29,6 +31,7 @@ export const register = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(404).json({
       message: "server error",
     });

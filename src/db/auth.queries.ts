@@ -11,11 +11,13 @@ export const createUser = async ({
     "INSERT INTO users (name , email , password , role) VALUES ($1 , $2 , $3 , $4) RETURNING id , name , email , role",
     [name, email, hashedPassword, role]
   );
+  console.log(user);
   return user.rows[0]
 };
 
 export const findByEmail = async (email:string) => {
     const user = await db.query("SELECT id , name , email , password , role , created_at , is_banned FROM users WHERE email = $1" , [email])
+    console.log(user);
     return user.rows[0];
 }
 
